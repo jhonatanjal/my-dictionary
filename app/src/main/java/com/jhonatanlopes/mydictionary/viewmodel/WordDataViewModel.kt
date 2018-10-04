@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.os.AsyncTask
+import android.util.Log
 import com.jhonatanlopes.mydictionary.model.WordData
 import com.jhonatanlopes.mydictionary.util.NetworkUtils
 import com.jhonatanlopes.mydictionary.util.OxfordDictionaryJsonUtils
@@ -20,6 +21,7 @@ class WordDataViewModel : ViewModel() {
 
     fun fetchWordData(word: String) {
         RequestWordDataTask(wordData).execute(word)
+        //wordData.value = WordData("Teste", "Teste", "Testes", "Tsstes")
     }
 
     class RequestWordDataTask(private val liveData: MutableLiveData<WordData>) : AsyncTask<String, Void, WordData>() {
@@ -34,6 +36,7 @@ class WordDataViewModel : ViewModel() {
 
         override fun onPostExecute(result: WordData?) {
             super.onPostExecute(result)
+            Log.d("onPostExecute", "msdd-terminei")
             liveData.value = result
         }
     }

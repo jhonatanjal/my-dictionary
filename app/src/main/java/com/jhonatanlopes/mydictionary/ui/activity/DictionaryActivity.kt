@@ -7,10 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
+import android.view.View
 import android.widget.SearchView
 import com.jhonatanlopes.mydictionary.R
 import com.jhonatanlopes.mydictionary.model.WordData
+import com.jhonatanlopes.mydictionary.ui.fragment.WordInfoFragment
 import com.jhonatanlopes.mydictionary.viewmodel.WordDataViewModel
 import kotlinx.android.synthetic.main.activity_dictionary.*
 
@@ -22,13 +25,10 @@ class DictionaryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dictionary)
 
-        model = ViewModelProviders.of(this).get(WordDataViewModel::class.java).also {
-            it.getWordData().observe(this, Observer<WordData> { wordData ->
-                if (wordData != null)
-                    tv_hello_word.text = wordData.toString()
-                else tv_hello_word.text = resources.getString(R.string.error_message)
-            })
-        }
+        model = ViewModelProviders.of(this).get(WordDataViewModel::class.java)
+        model.getWordData().observe(this, Observer<WordData> { wordData ->
+            showWordInfo(wordData)
+        })
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -50,8 +50,33 @@ class DictionaryActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         if (intent.action == Intent.ACTION_SEARCH) {
             val word = intent.getStringExtra(SearchManager.QUERY)
+            showProgressBar()
             model.fetchWordData(word)
         }
+    }
+
+    private fun showWordInfo(wordData: WordData?) {
+        Log.d("showWordInfo", "msdd-execultando")
+        val wordInfoFragment = WordInfoFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("word-data", wordData)
+        wordInfoFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, wordInfoFragment)
+                .addToBackStack(null)
+                .commit()
+        hideProgressBar()
+    }
+
+    private fun hideProgressBar() {
+        dictionary_progress_bar.visibility = View.GONE
+        dictionary_greeting.text = resources.getString(R.string.greeting_message)
+        fragment_container.visibility = View.VISIBLE
+    }
+
+    private fun showProgressBar() {
+        fragment_container.visibility = View.INVISIBLE
+        dictionary_progress_bar.visibility = View.VISIBLE
     }
 
 }
