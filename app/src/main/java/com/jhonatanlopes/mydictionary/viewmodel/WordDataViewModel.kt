@@ -21,7 +21,12 @@ class WordDataViewModel : ViewModel() {
 
     fun fetchWordData(word: String) {
         RequestWordDataTask(wordData).execute(word)
-        //wordData.value = WordData("Teste", "Teste", "Testes", "Tsstes")
+        /*wordData.value = WordData(
+                "Teste",
+                "Teste",
+                "Teste",
+                "Testes"
+        )*/
     }
 
     class RequestWordDataTask(private val liveData: MutableLiveData<WordData>) : AsyncTask<String, Void, WordData>() {
