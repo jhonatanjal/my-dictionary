@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
@@ -56,10 +55,9 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private fun showWordInfo(wordData: WordData?) {
-        Log.d("showWordInfo", "msdd-execultando")
         val wordInfoFragment = WordInfoFragment()
         val bundle = Bundle()
-        bundle.putSerializable("word-data", wordData)
+        bundle.putParcelable("word-data", wordData)
         wordInfoFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, wordInfoFragment)
@@ -70,7 +68,6 @@ class DictionaryActivity : AppCompatActivity() {
 
     private fun hideProgressBar() {
         dictionary_progress_bar.visibility = View.GONE
-        dictionary_greeting.text = resources.getString(R.string.greeting_message)
         fragment_container.visibility = View.VISIBLE
     }
 
@@ -78,6 +75,5 @@ class DictionaryActivity : AppCompatActivity() {
         fragment_container.visibility = View.INVISIBLE
         dictionary_progress_bar.visibility = View.VISIBLE
     }
-
 }
 
