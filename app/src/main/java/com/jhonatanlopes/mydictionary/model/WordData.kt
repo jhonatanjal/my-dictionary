@@ -7,7 +7,7 @@ class WordData(
         val wordId: String,
         val exemple: String,
         pronunciation: String,
-        val definition: String
+        val definitions: List<String>
 ) : Parcelable {
 
     val pronunciation: String = pronunciation
@@ -17,14 +17,22 @@ class WordData(
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString()
+            parcel.createStringArrayList()
     )
+
+    fun definitionsAsOneString(): String {
+        var definitionString = ""
+        for ((index, definition) in definitions.withIndex()) {
+            definitionString += "${index + 1}. $definition\n"
+        }
+        return definitionString
+    }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(wordId)
         dest.writeString(exemple)
         dest.writeString(pronunciation)
-        dest.writeString(definition)
+        dest.writeStringList(definitions)
     }
 
     override fun describeContents(): Int {

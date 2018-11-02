@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.View
 import android.widget.SearchView
+import android.widget.Toast
 import com.jhonatanlopes.mydictionary.R
 import com.jhonatanlopes.mydictionary.model.WordData
 import com.jhonatanlopes.mydictionary.ui.fragment.WordInfoFragment
@@ -55,15 +56,27 @@ class DictionaryActivity : AppCompatActivity() {
     }
 
     private fun showWordInfo(wordData: WordData?) {
-        val wordInfoFragment = WordInfoFragment()
-        val bundle = Bundle()
-        bundle.putParcelable("word-data", wordData)
-        wordInfoFragment.arguments = bundle
+        if (wordData != null) {
+            val wordInfoFragment = WordInfoFragment()
+
+            Bundle().let {
+                it.putParcelable("word-data", wordData)
+                wordInfoFragment.arguments = it
+            }
+            addFragmentToContainer(wordInfoFragment)
+        } else Toast.makeText(
+                this,
+                resources.getString(R.string.error_message),
+                Toast.LENGTH_SHORT).show()
+        hideProgressBar()
+    }
+
+    private fun addFragmentToContainer(wordInfoFragment: WordInfoFragment) {
+        supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, wordInfoFragment)
-                .addToBackStack(null)
+                .addToBackStack("card_word_info")
                 .commit()
-        hideProgressBar()
     }
 
     private fun hideProgressBar() {

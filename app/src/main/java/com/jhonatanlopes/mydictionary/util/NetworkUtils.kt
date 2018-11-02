@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
 
-class NetworkUtils() {
+class NetworkUtils {
     private val baseUrl: String = "https://od-api.oxforddictionaries.com/api/v1/entries/"
     private val language = "en"
 
