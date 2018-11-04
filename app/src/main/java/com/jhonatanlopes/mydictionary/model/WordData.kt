@@ -20,14 +20,6 @@ class WordData(
             parcel.createStringArrayList()
     )
 
-    fun definitionsAsOneString(): String {
-        var definitionString = ""
-        for ((index, definition) in definitions.withIndex()) {
-            definitionString += "${index + 1}. $definition\n"
-        }
-        return definitionString
-    }
-
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(wordId)
         dest.writeString(exemple)

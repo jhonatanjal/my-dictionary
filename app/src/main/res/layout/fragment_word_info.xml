@@ -5,7 +5,8 @@
     android:id="@+id/word_info_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:isScrollContainer="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -56,19 +57,17 @@
             app:layout_constraintStart_toStartOf="@+id/word_info_word_id"
             app:layout_constraintTop_toBottomOf="@+id/word_info_word_id" />
 
-        <TextView
-            android:id="@+id/word_info_definition"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/word_info_definitions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:padding="5dp"
-            android:textIsSelectable="true"
-            android:textSize="18sp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/word_info_label_exemples"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/word_info_label_definition"
             app:layout_constraintTop_toBottomOf="@+id/word_info_label_definition"
-            tools:text="couse to go or to be taken to a partivular destination" />
+            tools:listitem="@layout/definitions_list_item" />
 
         <TextView
             android:id="@+id/word_info_label_exemples"
@@ -79,7 +78,7 @@
             android:textAllCaps="false"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="@+id/word_info_label_definition"
-            app:layout_constraintTop_toBottomOf="@+id/word_info_definition" />
+            app:layout_constraintTop_toBottomOf="@+id/word_info_definitions" />
 
         <TextView
             android:id="@+id/word_info_exemple"
