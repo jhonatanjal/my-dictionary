@@ -26,9 +26,6 @@ class DictionaryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dictionary)
 
         model = ViewModelProviders.of(this).get(WordDataViewModel::class.java)
-        model.getWordData().observe(this, Observer<WordData> { wordData ->
-            showWordInfo(wordData)
-        })
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -51,7 +48,9 @@ class DictionaryActivity : AppCompatActivity() {
         if (intent.action == Intent.ACTION_SEARCH) {
             val word = intent.getStringExtra(SearchManager.QUERY)
             showProgressBar()
-            model.fetchWordData(word)
+            model.search(word).observe(this, Observer<WordData> { wordData ->
+                showWordInfo(wordData)
+            })
         }
     }
 
